@@ -1,13 +1,13 @@
 package com.lespsan543.ejemploroom.addtask.ui
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lespsan543.ejemploroom.addtask.domain.AddTaskUseCase
+import com.lespsan543.ejemploroom.addtask.domain.DeleteTaskUseCase
 import com.lespsan543.ejemploroom.addtask.domain.GetTasksUseCase
+import com.lespsan543.ejemploroom.addtask.domain.UpdateTaskUseCase
 import com.lespsan543.ejemploroom.addtask.ui.model.TaskModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,7 +22,9 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class TasksViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
-    getTasksUseCase: GetTasksUseCase
+    getTasksUseCase: GetTasksUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
 ): ViewModel() {
     val uiState: StateFlow<TaskUiState> = getTasksUseCase().map(::Success)
         .catch { Error(it) }
@@ -57,10 +59,18 @@ class TasksViewModel @Inject constructor(
     }
 
     fun onItemRemove(taskModel: TaskModel) {
+        viewModelScope.launch {
+            deleteTaskUseCase(TaskModel(task = _myTaskText.value ?: ""))
+        }
 
+        _myTaskText.value = ""
     }
 
     fun onCheckBoxSelected(taskModel: TaskModel) {
+        viewModelScope.launch {
+            updateTaskUseCase(TaskModel(task = _myTaskText.value ?: ""))
+        }
 
+        _myTaskText.value = ""
     }
 }

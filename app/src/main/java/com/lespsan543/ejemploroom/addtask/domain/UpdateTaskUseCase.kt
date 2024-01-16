@@ -5,8 +5,8 @@ import com.lespsan543.ejemploroom.addtask.data.toData
 import com.lespsan543.ejemploroom.addtask.ui.model.TaskModel
 import javax.inject.Inject
 
-class AddTaskUseCase @Inject constructor(private val taskRepository: TaskRepository) {
+class UpdateTaskUseCase @Inject constructor(private val taskRepository: TaskRepository) {
     suspend operator fun invoke(taskModel: TaskModel) {
-        taskRepository.add(taskModel.toData())
+        taskRepository.update(taskModel.toData())
     }
 }
