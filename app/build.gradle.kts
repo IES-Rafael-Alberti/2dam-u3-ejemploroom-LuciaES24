@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.lespsan543.ejemploroom"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -79,6 +79,8 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.5.0")
     //To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:2.5.0")
+
+    implementation("androidx.room:room-ktx:2.5.0")
 }
 
 //Dagger Hilt - Allow references to generated code
