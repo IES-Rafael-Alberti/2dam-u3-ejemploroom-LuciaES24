@@ -58,19 +58,15 @@ class TasksViewModel @Inject constructor(
         _myTaskText.value = taskText
     }
 
-    fun onItemRemove() {
+    fun onItemRemove(taskModel: TaskModel) {
         viewModelScope.launch {
-            deleteTaskUseCase(TaskModel(task = _myTaskText.value ?: ""))
+            deleteTaskUseCase(taskModel)
         }
-
-        _myTaskText.value = ""
     }
 
-    fun onCheckBoxSelected() {
+    fun onCheckBoxSelected(taskModel: TaskModel) {
         viewModelScope.launch {
-            updateTaskUseCase(TaskModel(task = _myTaskText.value ?: ""))
+            updateTaskUseCase(taskModel.copy(selected = !taskModel.selected))
         }
-
-        _myTaskText.value = ""
     }
 }
